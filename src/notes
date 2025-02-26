@@ -1,0 +1,20 @@
+
+Anything outside of io.on('connection', (socket) => { } will persist
+    - but once the user disconnects, any variables inside io.on are removed
+
+cloudfare drops connections after 100 seconds of inactivity!
+    - we can try to make some logic to disconnect users when they go to new tabs
+    - and connect when they move back
+
+we can pass data on connect with query's, such as
+    - const myPublicKey = socket.handshake.query?.publicKey;
+    - these can be used in middleware like JWT, so we can have auth like apis
+    - this could be used to connect a user to a specific room
+
+guide to jwt auth in middleware https://stackoverflow.com/questions/36788831/authenticating-socket-io-connections-using-jwt
+
+
+middleware is before the connection, so we can't listen for disconnection inside of it
+
+
+
