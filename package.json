@@ -1,24 +1,24 @@
 {
-  "name": "socketio-cursor-collaboration-template",
-  "version": "1.0.0",
-  "description": "",
-  "main": "src/app.js",
-  "scripts": {
-    "start": "node src/app.js",
-    "devstart": "nodemon src/app.js",
-    "inspect": "node --inspect src/app.js",
-    "pm2": "NODE_ENV=production pm2 start src/app.js  --watch --no-daemon "
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "dotenv": "^16.4.7",
-    "nodemon": "^3.1.9",
-    "socket.io": "^4.8.1",
-    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.51.0"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "1.9.4"
-  }
+    "name": "socketio-cursor-collaboration-template",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "devstart": "nodemon index.js",
+        "inspect": "node --inspect index.js",
+        "pm2": "NODE_ENV=production pm2 start index.js  --watch --no-daemon "
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "dotenv": "^16.4.7",
+        "nodemon": "^3.1.9",
+        "socket.io": "^4.8.1",
+        "uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.51.0"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "1.9.4"
+    }
 }

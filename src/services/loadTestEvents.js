@@ -11,7 +11,7 @@ function loadTestEvents(io) {
     });
 
     loadTestNamespace.on("connection", (socket) => {
-        console.log(`${socket.id} connected, in dev mode`);
+        console.log(`${socket.id} connected, in test mode`);
         loadTestConnections++;
 
         if (loadTestConnections % 50 === 0) {

@@ -1,19 +1,20 @@
 require("dotenv").config();
 const { App } = require("uWebSockets.js");
 const { Server } = require("socket.io");
-const { socketSetup } = require("./controllers/main");
+const { appSetup } = require("./src/controllers/app");
 const app = App();
 const port = Number(process.env.PORT) || 3005;
 
 const io = new Server({
     cors: {
         origin: `${process.env.CORS_ORIGIN}`,
-        transports: ["websocket"],
+        // transports: ["websocket"],
     },
 });
+
 io.attachApp(app);
 
-socketSetup(io);
+appSetup(io);
 
 app.listen(port, (token) => {
     console.log("app ran", port);

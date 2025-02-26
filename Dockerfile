@@ -1,9 +1,8 @@
-ARG NODE_ENV=production
 
 # Use the official Node.js image as the base image
-FROM node:18-alpine
+FROM node:22.14-alpine
 
-ENV NODE_ENV ${NODE_ENV}
+ENV NODE_ENV=production
 
 # create and Set the working directory
 RUN mkdir -p /usr/src/app
