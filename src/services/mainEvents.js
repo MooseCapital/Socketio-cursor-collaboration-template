@@ -12,7 +12,7 @@ function mainEvents(io) {
         if (process.env.NODE_ENV === "development") {
             console.log(`${socket.id} connected, in dev mode`);
         } else {
-            console.log("not in dev mode, using / namespace");
+            console.log("not in dev mode");
         }
 
         socket.on("ping", (callback) => {
@@ -20,3 +20,16 @@ function mainEvents(io) {
         });
     });
 }
+
+/* client latency to server ping test
+setInterval(() => {
+  const start = Date.now();
+
+  socket.emit("ping", () => {
+    const duration = Date.now() - start;
+    console.log(duration);
+  });
+}, 1000);
+
+
+*/

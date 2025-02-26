@@ -16,5 +16,29 @@ guide to jwt auth in middleware https://stackoverflow.com/questions/36788831/aut
 
 middleware is before the connection, so we can't listen for disconnection inside of it
 
+there have been memory leak errors in the past due to socket.io having polling as a backup, on the client
+    - only allow websocket connection upgrade, this will help things
+
+without using any other namespace, we are still using the default path / namespace
+    io.on("connection", (socket) => {});
+    io.use((socket, next) => { next() });
+    io.emit("hello");
+
+are actually equivalent to this, and we just use a different path for other code separation
+    const mainNamespace = io.of("/");
+    mainNamespace.use((socket, next) => { next() });
+    mainNamespace.on("connection", (socket) => {});
+    mainNamespace.emit("hello");
+
+volatile emits only send the most current event, since socket.io accumulates buffer events
+    - when it disconnects and reconnects, it will send Every event at once to "catch up"
+    - this can be a big burden on the server and unexpected behavior for the other users
+    - in a game or many situations, we don't want that and only want the most up to date event
+    - such as our cursor collaboration, so volatile is a good default and should be thought about
+    - https://socket.io/docs/v4/emitting-events/#volatile-events
+
+
+
+
 
 
