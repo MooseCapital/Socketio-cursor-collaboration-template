@@ -6,7 +6,7 @@
     "scripts": {
         "start": "node index.js",
         "devstart": "nodemon index.js",
-        "inspect": "node --inspect index.js",
+        "debug": "DEBUG=* node index.js",
         "pm2": "NODE_ENV=production pm2 start index.js  --watch --no-daemon "
     },
     "keywords": [],
