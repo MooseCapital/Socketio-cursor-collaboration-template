@@ -1,32 +1,21 @@
 module.exports = { loadTestEvents };
 
-function loadTestEvents(io) {
-    let loadTestConnections = 0;
+function loadTestEvents(io, socket, connectionsObj) {
+    connectionsObj.loadTestConnections++;
+    // console.log(`${socket.id} connected, in test mode`);
 
-    const loadTestNamespace = io.of("/test");
+    if (connectionsObj.loadTestConnections % 50 === 0) {
+        console.log("user connections:", connectionsObj.loadTestConnections);
+    }
 
-    loadTestNamespace.use((socket, next) => {
-        // testMiddleware(socket, next)
-        next();
+    socket.on("message", (data) => {
+        socket.emit("message", data);
     });
 
-    loadTestNamespace.on("connection", (socket) => {
-        console.log(`${socket.id} connected, in test mode`);
-        loadTestConnections++;
-
-        if (loadTestConnections % 50 === 0) {
-            console.log("user connections:", loadTestConnections);
+    socket.on("disconnect", () => {
+        connectionsObj.loadTestConnections--;
+        if (connectionsObj.loadTestConnections % 50 === 0) {
+            console.log("user leaving connections:", connectionsObj.loadTestConnections);
         }
-
-        socket.on("message", (data) => {
-            socket.emit("message", data);
-        });
-
-        socket.on("disconnect", () => {
-            loadTestConnections--;
-            if (loadTestConnections % 50 === 0) {
-                console.log("user leaving connections:", loadTestConnections);
-            }
-        });
     });
 }

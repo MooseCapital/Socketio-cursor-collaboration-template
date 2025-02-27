@@ -1,5 +1,21 @@
 const { mainMiddleware } = require("./middleware");
 module.exports = { mainEvents };
+let userConnections = 0;
+//ideally connections would be stored in redis not a variable
+function mainEvents(io, socket, connectionsOjb) {
+    connectionsOjb.userConnections++;
+
+    socket.on("ping", getPing);
+    // socket.on("user:get", getUser);
+}
+
+function getPing(callback) {
+    callback();
+}
+
+/* function getUser(socket) {
+    console.log(socket.id);
+} */
 
 /* client latency to server ping test
 setInterval(() => {
@@ -13,33 +29,3 @@ setInterval(() => {
 
 
 */
-
-//ideally connections would be stored in redis not a variable
-function mainEvents(io) {
-    let userConnections = 0;
-
-    mainMiddleware(io);
-
-    io.on("connection", (socket) => {
-        isDevMode(socket);
-        socket.on("ping", getPing);
-        socket.on("user:get", getUser);
-    });
-}
-
-//dev mode connection test
-function isDevMode(socket) {
-    if (process.env.NODE_ENV === "development") {
-        console.log(`${socket.id} connected, in dev mode`);
-    } else {
-        console.log("not in dev mode");
-    }
-}
-
-function getPing(callback) {
-    callback();
-}
-
-function getUser(socket) {
-    console.log(socket.id);
-}
