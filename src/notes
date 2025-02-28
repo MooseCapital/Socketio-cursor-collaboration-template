@@ -11,6 +11,9 @@ we can pass data on connect with query's, such as
     - these can be used in middleware like JWT, so we can have auth like apis
     - this could be used to connect a user to a specific room
 
+cors must be an array, and we must parse it in server setup since all env variables are strings when we need an array
+CORS_ORIGIN=["http://localhost:5173","http://localhost:4173","http://localhost:8888"]
+
 guide to jwt auth in middleware https://stackoverflow.com/questions/36788831/authenticating-socket-io-connections-using-jwt
 
 
@@ -37,7 +40,12 @@ volatile emits only send the most current event, since socket.io accumulates buf
     - such as our cursor collaboration, so volatile is a good default and should be thought about
     - https://socket.io/docs/v4/emitting-events/#volatile-events
 
+we don't need to stringify objects, it is done, we may need to parse it back for using
+    // BAD
+    socket.emit("hello", JSON.stringify({ name: "John" }));
 
+    // GOOD
+    socket.emit("hello", { name: "John" });
 
 
 

@@ -7,8 +7,7 @@ const port = Number(process.env.PORT) || 3005;
 
 const io = new Server({
     cors: {
-        origin: `${process.env.CORS_ORIGIN}`,
-        // transports: ["websocket"],
+        origin: JSON.parse(process.env.CORS_ORIGIN),
     },
 });
 

@@ -19,6 +19,7 @@ function appSetup(io) {
 
     // loadtest path setup
     const loadTestNamespace = io.of("/test");
+    //loadtest middleware
     // loadTestNamespace.use((socket, next) => next());
     loadTestNamespace.on("connection", (socket) => {
         loadTestEvents(io, socket, connectionsObj);
