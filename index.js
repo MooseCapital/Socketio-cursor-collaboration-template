@@ -13,6 +13,14 @@ const io = new Server({
     },
 });
 
+instrument(io, {
+    auth: {
+        type: "basic",
+        username: "admin",
+        password: process.env.ADMIN_PANEL_PASSWORD,
+    },
+});
+
 io.attachApp(app);
 
 appSetup(io);
