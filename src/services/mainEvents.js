@@ -5,6 +5,8 @@ export { mainEvents };
 function mainEvents(io, socket, connectionsOjb) {
     connectionsOjb.userConnections++;
     socket.emit("connections", connectionsOjb.userConnections);
+    //emit to connected user all others data, and send our own data to everyone
+    //2 separate events, 1 for initial, 1 for new connections
 
     socket.on("message", (data) => message(data, socket));
 
