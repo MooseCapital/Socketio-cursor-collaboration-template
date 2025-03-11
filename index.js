@@ -1,8 +1,9 @@
-require("dotenv").config();
-const { App } = require("uWebSockets.js");
-const { Server } = require("socket.io");
-const { appSetup } = require("./src/controllers/app");
-const { instrument } = require("@socket.io/admin-ui");
+import "dotenv/config";
+import { instrument } from "@socket.io/admin-ui";
+import { Server } from "socket.io";
+import { App } from "uWebSockets.js";
+import { appSetup } from "./src/controllers/app.js";
+
 const app = App();
 const port = Number(process.env.PORT) || 3005;
 

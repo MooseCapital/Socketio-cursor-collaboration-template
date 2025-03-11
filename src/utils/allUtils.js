@@ -1,4 +1,4 @@
-module.exports = { logDevMode };
+export { logDevMode };
 
 //dev mode connection test
 function logDevMode(socket) {

@@ -1,8 +1,9 @@
-const { mainEvents } = require("../services/mainEvents");
-const { loadTestEvents } = require("../services/loadTestEvents");
-const { mainMiddleware } = require("../services/middleware");
-const { logDevMode } = require("../utils/allUtils");
-module.exports = { appSetup };
+import { loadTestEvents } from "../services/loadTestEvents.js";
+import { mainEvents } from "../services/mainEvents.js";
+import { mainMiddleware } from "../services/middleware.js";
+import { logDevMode } from "../utils/allUtils.js";
+
+export { appSetup };
 
 function appSetup(io) {
     //test if passing connections works since it passes by value, and mainEvents

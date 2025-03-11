@@ -1,5 +1,4 @@
-const { mainMiddleware } = require("./middleware");
-module.exports = { mainEvents };
+export { mainEvents };
 
 //ideally connections would be stored in redis not a variable
 //if event is more than 2 lines, move to its own function, personal preference

@@ -1,4 +1,4 @@
-module.exports = { loadTestEvents };
+export { loadTestEvents };
 
 function loadTestEvents(io, socket, connectionsObj) {
     connectionsObj.loadTestConnections++;
