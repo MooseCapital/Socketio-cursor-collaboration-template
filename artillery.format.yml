@@ -1,0 +1,17 @@
+config:
+  target: "https://socketlink.com/"
+#  target: "http://localhost:3001"
+  socketio:
+    transports: ['websocket']
+  phases:
+    - duration: 300
+      arrivalRate: 20
+
+scenarios:
+  - name: new ws test with scaled vps
+    engine: 'socketio'
+    flow:
+      - think: 300
+
+
+

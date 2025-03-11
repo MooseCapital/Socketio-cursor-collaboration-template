@@ -2,12 +2,16 @@ const { mainMiddleware } = require("./middleware");
 module.exports = { mainEvents };
 
 //ideally connections would be stored in redis not a variable
+//if event is more than 2 lines, move to its own function, personal preference
 function mainEvents(io, socket, connectionsOjb) {
     connectionsOjb.userConnections++;
     socket.emit("connections", connectionsOjb.userConnections);
 
-    socket.on("ping", (callback) => callback());
     socket.on("message", (data) => message(data, socket));
+
+    socket.on("latency", (start) => {
+        socket.emit("latency", Date.now() - start);
+    });
 
     // socket.on("connections", () => connections(connectionsOjb, socket));
     socket.on("disconnect", () => disconnect(socket));
@@ -34,16 +38,3 @@ function connectError(err) {
 function disconnect(socket) {
     console.log(`${socket.id.slice(0, 5)} disconnected`);
 }
-
-/* client latency to server ping test
-setInterval(() => {
-  const start = Date.now();
-
-  socket.emit("ping", () => {
-    const duration = Date.now() - start;
-    console.log(duration);
-  });
-}, 1000);
-
-
-*/
