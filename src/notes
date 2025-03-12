@@ -50,3 +50,23 @@ we don't need to stringify objects, it is done, we may need to parse it back for
 use this bcrypt to hash your admin password and store it in env
     - https://www.devglan.com/online-tools/bcrypt-hash-generator
 
+{
+  _tolFBVfsXTWPM4Qz4P3Y: {
+    id: '_tolFBVfsXTWPM4Qz4P3Y',
+    cursorColor: 'purple',
+    cursorRGBA: 'rgba(173,144,255,0.6)',
+    flag: '🇺🇸',
+    countryCode: 'US',
+    region: 'MS',
+    socketId: '5CwcPxnguhjEXMVSAAAB'
+  },
+  eqrnQ5BWSMG0PGpYZOnuM: {
+    id: 'eqrnQ5BWSMG0PGpYZOnuM',
+    cursorColor: 'orange',
+    cursorRGBA: 'rgba(255,128,0,0.6)',
+    flag: '🇺🇸',
+    countryCode: 'US',
+    region: 'MS',
+    socketId: 'yk47zd_rz9Ck5EuaAAAD'
+  }
+}

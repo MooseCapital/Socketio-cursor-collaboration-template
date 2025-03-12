@@ -4,10 +4,8 @@ export { mainEvents };
 //if event is more than 2 lines, move to its own function, personal preference
 function mainEvents(io, socket, connectionsOjb, mainUsers) {
     connectionsOjb.userConnections++;
+    //emit to everyone
     io.emit("connections", connectionsOjb.userConnections);
-
-    //emit to connected user all others data, and send our own data to everyone
-    //2 separate events, 1 for initial, 1 for new connections
 
     socket.on("message", (data) => message(data, socket));
 
@@ -15,12 +13,28 @@ function mainEvents(io, socket, connectionsOjb, mainUsers) {
         socket.emit("latency", Date.now() - start);
     });
 
+    socket.on("newUser", (userData) => {
+        const { id, cursorColor, cursorRGBA, flag, countryCode, region } = userData;
+        console.log(`new user ${id}, typeof: ${typeof userData}`);
+        mainUsers[id] = userData;
+        mainUsers[id].socketID = socket.id;
+        socket.broadcast.emit("newUser", userData);
+        console.log(mainUsers);
+    });
     // socket.on("connections", () => connections(connectionsOjb, socket));
     socket.on("disconnect", () => {
         console.log(`${socket.id.slice(0, 5)} disconnected`);
         console.log(typeof connectionsOjb.userConnections, connectionsOjb.userConnections);
         connectionsOjb.userConnections--;
-        socket.broadcast.emit("connections", connectionsOjb.userConnections);
+        io.emit("connections", connectionsOjb.userConnections);
+        //emit remove user event, remove from mainUsers
+        const userID = Object.keys(mainUsers).find((key) => {
+            return mainUsers[key].socketID === socket.id;
+        });
+        delete mainUsers[userID];
+        console.log(mainUsers);
+
+        io.emit("removeUser", userID);
     });
 
     io.engine.on("connection_error", connectError);
@@ -30,11 +44,6 @@ function message(data, socket) {
     console.log(socket?.emit);
     socket.emit("message", data?.body);
     console.log(data);
-}
-
-function connections(connectionsObj, socket) {
-    console.log(`connections: ${connectionsObj.userConnections}`);
-    socket.emit("connections", connectionsObj.userConnections);
 }
 
 function connectError(err) {
