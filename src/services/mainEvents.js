@@ -24,10 +24,8 @@ function mainEvents(io, socket, connectionsOjb, mainUsers) {
         socket.broadcast.emit("newUser", userData);
         // console.log(mainUsers);
     });
-    // socket.on("connections", () => connections(connectionsOjb, socket));
+
     socket.on("disconnect", () => {
-        console.log(`${socket.id.slice(0, 5)} disconnected`);
-        console.log(typeof connectionsOjb.userConnections, connectionsOjb.userConnections);
         connectionsOjb.userConnections--;
         io.emit("connections", connectionsOjb.userConnections);
         //emit remove user event, remove from mainUsers
@@ -36,8 +34,10 @@ function mainEvents(io, socket, connectionsOjb, mainUsers) {
         });
         io.emit("removeUser", id);
         delete mainUsers[id];
-        console.log(id);
-        console.log(mainUsers);
+        console.log(
+            `${socket.id.slice(0, 5)} disconnected, users: ${connectionsOjb.userConnections} all users:`,
+            mainUsers,
+        );
     });
 
     io.engine.on("connection_error", connectError);
