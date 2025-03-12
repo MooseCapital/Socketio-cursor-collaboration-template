@@ -16,8 +16,7 @@ function mainEvents(io, socket, connectionsOjb, mainUsers) {
     socket.on("newUser", (userData) => {
         const { id, cursorColor, cursorRGBA, flag, countryCode, region } = userData;
         console.log(`new user ${id}, typeof: ${typeof userData}`);
-        mainUsers[id] = userData;
-        mainUsers[id].socketID = socket.id;
+        mainUsers[socket.id] = userData;
         socket.broadcast.emit("newUser", userData);
         console.log(mainUsers);
     });
@@ -28,13 +27,9 @@ function mainEvents(io, socket, connectionsOjb, mainUsers) {
         connectionsOjb.userConnections--;
         io.emit("connections", connectionsOjb.userConnections);
         //emit remove user event, remove from mainUsers
-        const userID = Object.keys(mainUsers).find((key) => {
-            return mainUsers[key].socketID === socket.id;
-        });
-        delete mainUsers[userID];
+        io.emit("removeUser", mainUsers[socket.id].id);
+        delete mainUsers[socket.id];
         console.log(mainUsers);
-
-        io.emit("removeUser", userID);
     });
 
     io.engine.on("connection_error", connectError);
