@@ -6,6 +6,8 @@ function mainEvents(io, socket, connectionsOjb, mainUsers) {
     connectionsOjb.userConnections++;
     //emit to everyone
     io.emit("connections", connectionsOjb.userConnections);
+    socket.emit("getAllUsers", mainUsers);
+    //refactor back to socketio inside mainUsers obj, not its key
 
     socket.on("message", (data) => message(data, socket));
 
@@ -15,10 +17,12 @@ function mainEvents(io, socket, connectionsOjb, mainUsers) {
 
     socket.on("newUser", (userData) => {
         const { id, cursorColor, cursorRGBA, flag, countryCode, region } = userData;
-        console.log(`new user ${id}, typeof: ${typeof userData}`);
-        mainUsers[socket.id] = userData;
+        console.log(`new user ${id}, typeof: ${typeof userData}, total users: ${connectionsOjb.userConnections}`);
+        mainUsers[id] = userData;
+        mainUsers[id].socketID = socket.id;
+
         socket.broadcast.emit("newUser", userData);
-        console.log(mainUsers);
+        // console.log(mainUsers);
     });
     // socket.on("connections", () => connections(connectionsOjb, socket));
     socket.on("disconnect", () => {
@@ -27,8 +31,12 @@ function mainEvents(io, socket, connectionsOjb, mainUsers) {
         connectionsOjb.userConnections--;
         io.emit("connections", connectionsOjb.userConnections);
         //emit remove user event, remove from mainUsers
-        io.emit("removeUser", mainUsers[socket.id].id);
-        delete mainUsers[socket.id];
+        const id = Object.keys(mainUsers).find((key) => {
+            return mainUsers[key].socketID === socket.id;
+        });
+        io.emit("removeUser", id);
+        delete mainUsers[id];
+        console.log(id);
         console.log(mainUsers);
     });
 
