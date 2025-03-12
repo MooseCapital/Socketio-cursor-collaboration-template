@@ -6,15 +6,13 @@ import { logDevMode } from "../utils/allUtils.js";
 export { appSetup };
 
 function appSetup(io) {
-    //test if passing connections works since it passes by value, and mainEvents
-    //may not change the value here, so we may have to use object reference
-    // let userConnections = 0; let loadTestConnections = 0;
     const connectionsObj = { userConnections: 0, loadTestConnections: 0 };
+    const mainUsers = {};
 
     mainMiddleware(io);
     io.on("connection", (socket) => {
         logDevMode(socket);
-        mainEvents(io, socket, connectionsObj);
+        mainEvents(io, socket, connectionsObj, mainUsers);
         //other events..
     });
 

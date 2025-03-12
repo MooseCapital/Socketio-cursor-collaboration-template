@@ -2,9 +2,10 @@ export { mainEvents };
 
 //ideally connections would be stored in redis not a variable
 //if event is more than 2 lines, move to its own function, personal preference
-function mainEvents(io, socket, connectionsOjb) {
+function mainEvents(io, socket, connectionsOjb, mainUsers) {
     connectionsOjb.userConnections++;
-    socket.emit("connections", connectionsOjb.userConnections);
+    io.emit("connections", connectionsOjb.userConnections);
+
     //emit to connected user all others data, and send our own data to everyone
     //2 separate events, 1 for initial, 1 for new connections
 
@@ -15,7 +16,13 @@ function mainEvents(io, socket, connectionsOjb) {
     });
 
     // socket.on("connections", () => connections(connectionsOjb, socket));
-    socket.on("disconnect", () => disconnect(socket));
+    socket.on("disconnect", () => {
+        console.log(`${socket.id.slice(0, 5)} disconnected`);
+        console.log(typeof connectionsOjb.userConnections, connectionsOjb.userConnections);
+        connectionsOjb.userConnections--;
+        socket.broadcast.emit("connections", connectionsOjb.userConnections);
+    });
+
     io.engine.on("connection_error", connectError);
 }
 
@@ -35,7 +42,4 @@ function connectError(err) {
     console.log(err.code); // the error code, for example 1
     console.log(err.message); // the error message, for example "Session ID unknown"
     console.log(err.context); // some additional error context
-}
-function disconnect(socket) {
-    console.log(`${socket.id.slice(0, 5)} disconnected`);
 }
