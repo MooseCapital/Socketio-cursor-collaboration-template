@@ -1,6 +1,6 @@
 
 # Use the official Node.js image as the base image
-FROM node:22.14-alpine
+FROM node:22.14-slim
 
 ENV NODE_ENV=production
 
