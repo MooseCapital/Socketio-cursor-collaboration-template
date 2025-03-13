@@ -11,8 +11,12 @@ function mainEvents(io, socket, connectionsOjb, mainUsers) {
 
     socket.on("message", (data) => message(data, socket));
 
-    socket.on("latency", (start) => {
-        socket.emit("latency", Date.now() - start);
+    socket.on("user:color", (data) => {
+        // new users get updated color state from server
+        const { id, cursorColor, cursorRGBA } = data;
+        mainUsers[id].cursorColor = cursorColor;
+        mainUsers[id].cursorRGBA = cursorRGBA;
+        socket.broadcast.emit("user:color", data);
     });
 
     socket.on("newUser", (userData) => {
@@ -23,6 +27,10 @@ function mainEvents(io, socket, connectionsOjb, mainUsers) {
 
         socket.broadcast.emit("newUser", userData);
         // console.log(mainUsers);
+    });
+
+    socket.on("latency", (start) => {
+        socket.emit("latency", Date.now() - start);
     });
 
     socket.on("disconnect", () => {
