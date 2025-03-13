@@ -19,6 +19,11 @@ function mainEvents(io, socket, connectionsOjb, mainUsers) {
         socket.broadcast.emit("user:color", data);
     });
 
+    socket.on("user:position", (data) => {
+        // new users get updated color state from server
+        socket.broadcast.emit("user:position", data);
+    });
+
     socket.on("newUser", (userData) => {
         const { id, cursorColor, cursorRGBA, flag, countryCode, region } = userData;
         console.log(`new user ${id}, typeof: ${typeof userData}, total users: ${connectionsOjb.userConnections}`);
