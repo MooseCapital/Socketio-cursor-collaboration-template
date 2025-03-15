@@ -11,26 +11,18 @@ function mainEvents(io, socket, connectionsOjb, mainUsers) {
 
     socket.on("message", (data) => message(data, socket));
 
-    socket.on("user:color", (data) => {
-        // new users get updated color state from server
-        const { id, cursorColor, cursorRGBA } = data;
-        mainUsers[id].cursorColor = cursorColor;
-        mainUsers[id].cursorRGBA = cursorRGBA;
-        socket.broadcast.emit("user:color", data);
-    });
-
     socket.on("user:position", (data) => {
         // new users get updated color state from server
         socket.broadcast.emit("user:position", data);
     });
 
-    socket.on("newUser", (userData) => {
+    socket.on("user:new", (userData) => {
         const { id, cursorColor, cursorRGBA, flag, countryCode, region } = userData;
         console.log(`new user ${id}, typeof: ${typeof userData}, total users: ${connectionsOjb.userConnections}`);
         mainUsers[id] = userData;
         mainUsers[id].socketID = socket.id;
 
-        socket.broadcast.emit("newUser", userData);
+        socket.broadcast.emit("user:new", userData);
         // console.log(mainUsers);
     });
 
@@ -45,7 +37,7 @@ function mainEvents(io, socket, connectionsOjb, mainUsers) {
         const id = Object.keys(mainUsers).find((key) => {
             return mainUsers[key].socketID === socket.id;
         });
-        io.emit("removeUser", id);
+        io.emit("user:remove", id);
         delete mainUsers[id];
         console.log(
             `${socket.id.slice(0, 5)} disconnected, users: ${connectionsOjb.userConnections} all users:`,

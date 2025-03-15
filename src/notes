@@ -1,3 +1,4 @@
+to test, run socketio-test-client , and make sure cors is open for port 8888
 
 Anything outside of io.on('connection', (socket) => { } will persist
     - but once the user disconnects, any variables inside io.on are removed
