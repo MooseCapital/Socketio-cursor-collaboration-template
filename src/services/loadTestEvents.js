@@ -8,7 +8,7 @@ function loadTestEvents(io, socket, connectionsObj) {
     }
 
     socket.on("message", (data) => {
-        socket.broadcast.emit("message", data);
+        // socket.broadcast.emit("message", data);
     });
 
     socket.on("disconnect", () => {

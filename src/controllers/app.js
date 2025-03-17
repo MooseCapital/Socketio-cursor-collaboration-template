@@ -16,7 +16,6 @@ function appSetup(io) {
             mainPositions.length = 0;
         }
     }, 100);
-    // clearInterval(emitPositions);
 
     mainMiddleware(io);
     io.on("connection", (socket) => {
@@ -27,6 +26,12 @@ function appSetup(io) {
 
     // loadtest path setup
     const loadTestNamespace = io.of("/test");
+    const testInterval = setInterval(() => {
+        if (connectionsObj.loadTestConnections > 0) {
+            loadTestNamespace.emit("message", "test");
+            // console.log("test interval");
+        }
+    }, 1000);
     loadTestNamespace.on("connection", (socket) => {
         loadTestEvents(io, socket, connectionsObj, mainPositions);
     });
