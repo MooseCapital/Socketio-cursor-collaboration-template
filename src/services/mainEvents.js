@@ -2,7 +2,7 @@ export { mainEvents };
 
 //ideally connections would be stored in redis not a variable
 //if event is more than 2 lines, move to its own function, personal preference
-function mainEvents(io, socket, connectionsOjb, mainUsers) {
+function mainEvents(io, socket, connectionsOjb, mainUsers, mainPositions) {
     connectionsOjb.userConnections++;
     //emit to everyone
     io.emit("connections", connectionsOjb.userConnections);
@@ -13,7 +13,8 @@ function mainEvents(io, socket, connectionsOjb, mainUsers) {
 
     socket.on("user:position", (data) => {
         // new users get updated color state from server
-        socket.broadcast.emit("user:position", data);
+        // socket.broadcast.emit("user:position", data);
+        mainPositions.push(data);
     });
 
     socket.on("user:new", (userData) => {
